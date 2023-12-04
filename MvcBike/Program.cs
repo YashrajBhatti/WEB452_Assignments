@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using MvcBike.Data;
 using MvcBike.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ApplicationDbContext")));
+builder.Services.AddDbContext<MvcBikeContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("MvcBikeContext")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

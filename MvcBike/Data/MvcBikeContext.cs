@@ -5,12 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MvcBike.Models;
 
-    public class ApplicationDbContext : DbContext
+namespace MvcBike.Data
+{
+    public class MvcBikeContext : DbContext
     {
-        public ApplicationDbContext (DbContextOptions<ApplicationDbContext> options)
+        public MvcBikeContext (DbContextOptions<MvcBikeContext> options)
             : base(options)
         {
         }
 
-        public DbSet<MvcBike.Models.Todo> Todo { get; set; }
+        public DbSet<MvcBike.Models.Bike> Bike { get; set; }
     }
+}
