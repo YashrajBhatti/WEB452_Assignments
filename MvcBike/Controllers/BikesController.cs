@@ -138,7 +138,7 @@ public async Task<IActionResult> Index(string bikeRating, string searchString, s
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Model,launchDate,company,Price,Rating")] Bike bike)
+        public async Task<IActionResult> Create([Bind("Id,Model,LaunchDate,Company,Price,CC,Rating")] Bike bike)
         {
             if (ModelState.IsValid)
             {
@@ -274,12 +274,12 @@ private bool BikeExists(int id)
     return RedirectToAction(nameof(Index));
 }
 
-    // GET: Movies/DeleteAll
+    // GET: Bikes/DeleteAll
     public async Task<IActionResult> DeleteAll() 
         {
             return View();
         }
-   // POST: Movies/DeleteAll
+   // POST: Bikes/DeleteAll
     [HttpPost, ActionName("DeleteAll")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmedAll() 
