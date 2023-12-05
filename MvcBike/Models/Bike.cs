@@ -6,7 +6,6 @@ namespace MvcBike.Models
 {
     public class Bike
     {
-        internal bool IsHidden;
 
         public int Id { get; set; }
 
@@ -34,6 +33,8 @@ namespace MvcBike.Models
 
         [Required]
         public string? Rating { get; set; }
+
+        public bool IsHidden { get; set; }
         
     }
 }

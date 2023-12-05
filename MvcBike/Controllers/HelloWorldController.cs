@@ -3,7 +3,7 @@ using MvcBike.Models;
 
 namespace MvcBike.Controllers
 {
-    public class ExampleController : Controller
+    public class HelloWorldController : Controller
     {
         public IActionResult Index()
         {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\yashr\\OneDrive\\Desktop\\MvcBike\\MvcBike.csproj": {}
+    "C:\\Users\\yashr\\OneDrive\\Desktop\\WEB452_Assignments\\MvcBike\\MvcBike.csproj": {}
   },
   "projects": {
-    "C:\\Users\\yashr\\OneDrive\\Desktop\\MvcBike\\MvcBike.csproj": {
+    "C:\\Users\\yashr\\OneDrive\\Desktop\\WEB452_Assignments\\MvcBike\\MvcBike.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\yashr\\OneDrive\\Desktop\\MvcBike\\MvcBike.csproj",
+        "projectUniqueName": "C:\\Users\\yashr\\OneDrive\\Desktop\\WEB452_Assignments\\MvcBike\\MvcBike.csproj",
         "projectName": "MvcBike",
-        "projectPath": "C:\\Users\\yashr\\OneDrive\\Desktop\\MvcBike\\MvcBike.csproj",
+        "projectPath": "C:\\Users\\yashr\\OneDrive\\Desktop\\WEB452_Assignments\\MvcBike\\MvcBike.csproj",
         "packagesPath": "C:\\Users\\yashr\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\yashr\\OneDrive\\Desktop\\MvcBike\\obj\\",
+        "outputPath": "C:\\Users\\yashr\\OneDrive\\Desktop\\WEB452_Assignments\\MvcBike\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\yashr\\AppData\\Roaming\\NuGet\\NuGet.Config",

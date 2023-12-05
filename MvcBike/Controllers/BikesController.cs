@@ -20,12 +20,12 @@ namespace MvcBike.Controllers
         }
 
         // GET: bikes
-public async Task<IActionResult> Index(string bikeCompany, string searchString, string sortOrder)
+public async Task<IActionResult> Index(string bikeRating, string searchString, string sortOrder)
     {
         // Use LINQ to get list of companys.
-        IQueryable<string> companyQuery = from m in _context.Bike
-                                        orderby m.Company
-                                        select m.Company;
+        IQueryable<string> ratingQuery = from m in _context.Bike
+                                        orderby m.Rating
+                                        select m.Rating;
         var bikes = from m in _context.Bike
                     select m;
 
@@ -34,28 +34,26 @@ public async Task<IActionResult> Index(string bikeCompany, string searchString, 
            bikes = bikes.Where(s => s.Model!.Contains(searchString));
         }
 
-        
-
-        if (!string.IsNullOrEmpty(bikeCompany))
+        if (!string.IsNullOrEmpty(bikeRating))
         {
-            bikes = bikes.Where(x => x.Company!.Contains(bikeCompany));
+            bikes = bikes.Where(x => x.Company!.Contains(bikeRating));
         }
 
         ViewData["SearchModel"] = searchString;
-        ViewData["SearchCompany"] = bikeCompany;
+        ViewData["SearchRating"] = bikeRating;
 
        
 
         
         bikes = SortBikes(bikes,sortOrder);
 
-        var bikeCompanyVM = new BikeCompanyViewModel
+        var bikeRatingVM = new BikeRatingViewModel
         {
-            Company = new SelectList(await companyQuery.Distinct().ToListAsync()),
+            Rating = new SelectList(await ratingQuery.Distinct().ToListAsync()),
             Bikes = await bikes.ToListAsync()
         };
 
-        return View(bikeCompanyVM);
+        return View(bikeRatingVM);
     }
 
         private IQueryable<Bike> SortBikes(IQueryable<Bike> bikes, string sortOrder)
@@ -232,66 +230,69 @@ public async Task<IActionResult> Index(string bikeCompany, string searchString, 
             return RedirectToAction(nameof(Index));
         }
 
+private bool BikeExists(int id)
+        {
+            return _context.Bike.Any(e => e.Id == id);
+        }
 
-        // GET: bikes/DeleteAll
-        public async Task<IActionResult> DeleteAll()
+           //HideSelected stuff goes below here
+    public async Task<IActionResult> HideSelected(int[] selectedBikes) 
+    {
+        if (selectedBikes != null && selectedBikes.Length > 0)
+        {
+            var bikesToHide = await _context.Bike
+                .Where(m => selectedBikes.Contains(m.Id))
+                .ToListAsync();
+
+            foreach (var bike in bikesToHide)
+            {
+                bike.IsHidden = true;
+            }
+
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Hidden() 
+    {
+        var hiddenBikes = await _context.Bike.Where(m => m.IsHidden).ToListAsync();
+        return View(hiddenBikes); 
+    }
+
+    public async Task<IActionResult> ReturnHiddenBikes() 
+{
+    var hiddenBikes = await _context.Bike.Where(m => m.IsHidden).ToListAsync();
+
+    foreach (var bike in hiddenBikes)
+    {
+        bike.IsHidden = false;
+    }
+
+    await _context.SaveChangesAsync();
+
+    return RedirectToAction(nameof(Index));
+}
+
+    // GET: Movies/DeleteAll
+    public async Task<IActionResult> DeleteAll() 
         {
             return View();
         }
-
-        // POST: bikes/DeleteAll
-        [HttpPost, ActionName("DeleteAll")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmedAll()
+   // POST: Movies/DeleteAll
+    [HttpPost, ActionName("DeleteAll")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmedAll() 
         {
-             var allbikes = _context.Bike.ToList();
-            if (allbikes.Count > 0) 
+            var allBikes = _context.Bike.ToList();
+            if (allBikes.Count > 0) 
             {
-                _context.Bike.RemoveRange(allbikes);
+                _context.Bike.RemoveRange(allBikes);
                 await _context.SaveChangesAsync();
             }
 
             return RedirectToAction(nameof(Index));
 
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteSelected(int[] selectedBikes)
-        {
-
-            var bikesToBeDeleted = _context.Bike.Where(m => selectedBikes.Contains(m.Id)).ToList();
-            if (bikesToBeDeleted.Count > 0) 
-            {
-                _context.Bike.RemoveRange(bikesToBeDeleted);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction(nameof(Index));
-            
-        }
-        [HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> HideSelected(int[] selectedBikes)
-{
-    var bikesToBeHidden = _context.Bike.Where(m => selectedBikes.Contains(m.Id)).ToList();
-    if (bikesToBeHidden.Count > 0) 
-    {
-        foreach (var bike in bikesToBeHidden)
-        {
-            bike.IsHidden = true; // Set the IsHidden flag to true
-        }
-        await _context.SaveChangesAsync();
-    }
-
-    // Passing the list of hidden bikes to the new view
-    return View("HiddenBikes", bikesToBeHidden); 
-}
-
-
-
-        private bool BikeExists(int id)
-        {
-            return _context.Bike.Any(e => e.Id == id);
         }
     }
 }
